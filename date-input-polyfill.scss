@@ -105,6 +105,11 @@ date-input-polyfill {
       background: #DADFE1;
     }
   }
+  
+  td.disabled{
+    color: #aaa;
+  }
+
   [data-selected] {
     font-weight: bold;
     background: #D8EAF6;

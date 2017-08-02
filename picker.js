@@ -275,9 +275,23 @@ class Picker {
       // Populate day number.
       const dayNum = i + 1 - startDay;
       const selected = selMatrix && selDate.getDate() === dayNum;
+      
+      //Date for current cell 
+      const cellDate = new Date(this.date);
+      cellDate.setDate(dayNum);
+
+      //Check to make sure date is within valid range
+      let isValid = true;
+      if(
+        (!isNaN(new Date(this.input.min)) && cellDate < new Date(this.input.min))
+        ||
+        (!isNaN(new Date(this.input.max)) && cellDate > new Date(this.input.max))
+      ){
+        isValid = false;
+      }
 
       matrixHTML.push(
-        `<td data-day ${selected ? `data-selected` : ``}>
+        `<td ${isValid ? `data-day` : `class="disabled"`} ${selected ? `data-selected` : ``} text="${cellDate < this.input.min}">
           ${dayNum}
         </td>`
       );
