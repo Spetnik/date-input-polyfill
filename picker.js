@@ -123,6 +123,18 @@ class Picker {
 
   // Show.
   show() {
+    //Check to make sure today's date is within valid range and if not, disable "today" button
+    const today = new Date();
+    if(
+      (!isNaN(new Date(this.input.min)) && today < new Date(this.input.min))
+      ||
+      (!isNaN(new Date(this.input.max)) && today > new Date(this.input.max))
+    ){
+      this.today.disabled = true;
+    } else {
+      this.today.disabled = false;
+    }
+
     this.container.setAttribute(`data-open`, this.isOpen = true);
     // Close the picker when clicking outside of a date input or picker.
     setTimeout(()=>{

@@ -77,7 +77,9 @@ date-input-polyfill {
     -webkit-border-radius: 0 5px 0 0;
 
     &:hover {
-      background: #eee;
+      &:not(:disabled){
+        background: #eee;
+      }
     }
   }
 
