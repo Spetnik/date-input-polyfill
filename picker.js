@@ -123,8 +123,9 @@ class Picker {
 
   // Show.
   show() {
-    //Check to make sure today's date is within valid range and if not, disable "today" button
-    const today = new Date();
+    // Check to make sure today's date is within valid range and if not, disable "today" button
+    // (`today` needs to be today's date at midnight)
+    const today = new Date((new Date()).toISOString().replace(/([0-9]{2}:?){3}\.[0-9]+/g, `00:00:00.000`));
     if(
       (!isNaN(new Date(this.input.min)) && today < new Date(this.input.min))
       ||
@@ -201,7 +202,8 @@ class Picker {
     if (!isNaN(Date.parse(this.input.valueAsDate))) {
       this.date = Picker.absoluteDate(this.input.valueAsDate);
     } else {
-      this.date = new Date();
+      // Date needs to be today at midnight (without any hours or minutes)
+      this.date = new Date((new Date()).toISOString().replace(/([0-9]{2}:?){3}\.[0-9]+/g, `00:00:00.000`));
     }
 
     this.year.value = this.date.getFullYear();
@@ -290,7 +292,7 @@ class Picker {
       
       //Date for current cell 
       const cellDate = new Date(this.date);
-      cellDate.setDate(dayNum);
+      cellDate.setUTCDate(dayNum);
 
       //Check to make sure date is within valid range
       let isValid = true;
@@ -303,7 +305,7 @@ class Picker {
       }
 
       matrixHTML.push(
-        `<td ${isValid ? `data-day` : `class="disabled"`} ${selected ? `data-selected` : ``} text="${cellDate < this.input.min}">
+        `<td ${isValid ? `data-day` : `class="disabled"`} ${selected ? `data-selected` : ``} text="${cellDate.toISOString()} : ${(new Date(this.input.max)).toISOString()}">
           ${dayNum}
         </td>`
       );
